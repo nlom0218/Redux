@@ -1,34 +1,65 @@
 import "./index.css"
+import "./web"
 
 import { createStore } from "redux"
 
-const container = [...document.querySelectorAll(".container")]
-
 const reducer = (state = { color: "white" }, action) => {
   switch (action.type) {
-    case "RED":
-      return { color: "red" }
-    case "GREEN":
-      return { color: "green" }
-    case "BLUE":
-      return { color: "blue" }
+    case "CHANGE_COLOR":
+      return { color: action.color }
     default:
       return state
   }
 }
 
-let store = createStore(reducer)
+const store = createStore(reducer)
 
-const changeColor = (e) => {
-  store.dispatch({ type: e.target.name.toUpperCase() })
-  const { color } = store.getState()
-  container.map((item) => item.style.backgroundColor = color)
+const red = () => {
+  const { color } = store.getState();
+  document.getElementById("red").innerHTML = `
+    <div class="container" style="background-color:${color}">
+      <h1>RED</h1>
+      <input type="button" value="change" class="redBtn">
+    </div>
+    `
+  document.querySelector(".redBtn").addEventListener("click", () => {
+    store.dispatch({ type: "CHANGE_COLOR", color: "red" })
+  })
 }
+store.subscribe(red)
+
+const green = () => {
+  const { color } = store.getState();
+  document.getElementById("green").innerHTML = `
+    <div class="container" style="background-color:${color}">
+      <h1>GREEN</h1>
+      <input type="button" value="change" class="greenBtn">
+    </div>
+    `
+  document.querySelector(".greenBtn").addEventListener("click", () => {
+    store.dispatch({ type: "CHANGE_COLOR", color: "green" })
+  })
+}
+store.subscribe(green)
+
+const blue = () => {
+  const { color } = store.getState();
+  document.getElementById("blue").innerHTML = `
+    <div class="container" style="background-color:${color}">
+      <h1>BLUE</h1>
+      <input type="button" value="change" class="blueBtn">
+    </div>
+    `
+  document.querySelector(".blueBtn").addEventListener("click", () => {
+    store.dispatch({ type: "CHANGE_COLOR", color: "blue" })
+  })
+}
+store.subscribe(blue)
 
 function init() {
-  document.querySelector(".redBtn").addEventListener("click", changeColor)
-  document.querySelector(".greenBtn").addEventListener("click", changeColor)
-  document.querySelector(".blueBtn").addEventListener("click", changeColor)
+  red()
+  green()
+  blue()
 }
 
 init()

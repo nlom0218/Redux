@@ -3,3 +3,8 @@
     padding: 10px;
     margin: 20px;
 }
+
+.underBar{
+    margin-top: 20px;
+    border-top: 3px solid black;
+}
